@@ -1,0 +1,3347 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 44,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import os\n",
+    "import csv\n",
+    "import pandas as pd\n",
+    "import numpy as np"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 47,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "file_to_load = \"/Users/robertocampos/Downloads/TECMC201902DATA2-master 3/02-Homework/04-Pandas/Instructions/HeroesOfPymoli/Resources/purchase_data.csv\""
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 76,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "purchase_data = pd.read_csv(file_to_load)\n",
+    "data = pd.DataFrame(purchase_data)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 78,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Purchase ID</th>\n",
+       "      <th>SN</th>\n",
+       "      <th>Age</th>\n",
+       "      <th>Gender</th>\n",
+       "      <th>Item ID</th>\n",
+       "      <th>Item Name</th>\n",
+       "      <th>Price</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>0</td>\n",
+       "      <td>Lisim78</td>\n",
+       "      <td>20</td>\n",
+       "      <td>Male</td>\n",
+       "      <td>108</td>\n",
+       "      <td>Extraction, Quickblade Of Trembling Hands</td>\n",
+       "      <td>3.53</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>1</td>\n",
+       "      <td>Lisovynya38</td>\n",
+       "      <td>40</td>\n",
+       "      <td>Male</td>\n",
+       "      <td>143</td>\n",
+       "      <td>Frenzied Scimitar</td>\n",
+       "      <td>1.56</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>2</td>\n",
+       "      <td>Ithergue48</td>\n",
+       "      <td>24</td>\n",
+       "      <td>Male</td>\n",
+       "      <td>92</td>\n",
+       "      <td>Final Critic</td>\n",
+       "      <td>4.88</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>3</td>\n",
+       "      <td>Chamassasya86</td>\n",
+       "      <td>24</td>\n",
+       "      <td>Male</td>\n",
+       "      <td>100</td>\n",
+       "      <td>Blindscythe</td>\n",
+       "      <td>3.27</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>4</td>\n",
+       "      <td>Iskosia90</td>\n",
+       "      <td>23</td>\n",
+       "      <td>Male</td>\n",
+       "      <td>131</td>\n",
+       "      <td>Fury</td>\n",
+       "      <td>1.44</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "   Purchase ID             SN  Age Gender  Item ID  \\\n",
+       "0            0        Lisim78   20   Male      108   \n",
+       "1            1    Lisovynya38   40   Male      143   \n",
+       "2            2     Ithergue48   24   Male       92   \n",
+       "3            3  Chamassasya86   24   Male      100   \n",
+       "4            4      Iskosia90   23   Male      131   \n",
+       "\n",
+       "                                   Item Name  Price  \n",
+       "0  Extraction, Quickblade Of Trembling Hands   3.53  \n",
+       "1                          Frenzied Scimitar   1.56  \n",
+       "2                               Final Critic   4.88  \n",
+       "3                                Blindscythe   3.27  \n",
+       "4                                       Fury   1.44  "
+      ]
+     },
+     "execution_count": 78,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "data.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 121,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "576"
+      ]
+     },
+     "execution_count": 121,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "#1.  Player Count\n",
+    "total_players = len(data[\"SN\"].unique())  \n",
+    "total_players\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 126,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Total Players</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>576</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "   Total Players\n",
+       "0            576"
+      ]
+     },
+     "execution_count": 126,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "summary_table = pd.DataFrame({\"Total Players\": [total_players]})\n",
+    "summary_table"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 86,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#2. Purchasing Analysis (Total)\n",
+    "#Run basic calculations to obtain number of:\n",
+    "    #a. Unique items\n",
+    "    #b. Average price\n",
+    "    #c. Number of Purchases\n",
+    "    #d. Total Revenue"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 111,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "179"
+      ]
+     },
+     "execution_count": 111,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "#a\n",
+    "unique_items = len(data[\"Item Name\"].unique())\n",
+    "unique_items\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 197,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "3.050987179487176"
+      ]
+     },
+     "execution_count": 197,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "#b. \n",
+    "average = data[\"Price\"].mean()\n",
+    "average"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 115,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "780"
+      ]
+     },
+     "execution_count": 115,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "#c.\n",
+    "number_purchases = data[\"Purchase ID\"].count()\n",
+    "number_purchases"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 119,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "2379.77"
+      ]
+     },
+     "execution_count": 119,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "#d. \n",
+    "total_revenue = data[\"Price\"].sum()\n",
+    "total_revenue"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 206,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Unique Items</th>\n",
+       "      <th>Average Price</th>\n",
+       "      <th>Number of Purchases</th>\n",
+       "      <th>Total Revenue</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>179</td>\n",
+       "      <td>$ 3.05</td>\n",
+       "      <td>780</td>\n",
+       "      <td>$ 2,379.77</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "   Unique Items Average Price  Number of Purchases Total Revenue\n",
+       "0           179        $ 3.05                  780    $ 2,379.77"
+      ]
+     },
+     "execution_count": 206,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "summary_table = pd.DataFrame({\"Unique Items\": unique_items,\n",
+    "                              \"Average Price\": [average],\n",
+    "                              \"Number of Purchases\": [number_purchases],\n",
+    "                              \"Total Revenue\": [total_revenue]})\n",
+    "\n",
+    "summary_table[\"Average Price\"] = summary_table[\"Average Price\"].map(\"$ {:.2f}\".format)\n",
+    "summary_table[\"Total Revenue\"] = summary_table[\"Total Revenue\"].map(\"$ {:,}\".format)\n",
+    "summary_table\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#3. Gender Demographics:\n",
+    "\n",
+    "    #a. Percentage and Count of Male Players\n",
+    "\n",
+    "    #b. Percentage and Count of Female Players\n",
+    "\n",
+    "    #c. Percentage and Count of Other / Non-Disclosed\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 967,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Purchase ID</th>\n",
+       "      <th>SN</th>\n",
+       "      <th>Age</th>\n",
+       "      <th>Gender</th>\n",
+       "      <th>Item ID</th>\n",
+       "      <th>Item Name</th>\n",
+       "      <th>Price</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>0</td>\n",
+       "      <td>Lisim78</td>\n",
+       "      <td>20</td>\n",
+       "      <td>Male</td>\n",
+       "      <td>108</td>\n",
+       "      <td>Extraction, Quickblade Of Trembling Hands</td>\n",
+       "      <td>3.53</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>1</td>\n",
+       "      <td>Lisovynya38</td>\n",
+       "      <td>40</td>\n",
+       "      <td>Male</td>\n",
+       "      <td>143</td>\n",
+       "      <td>Frenzied Scimitar</td>\n",
+       "      <td>1.56</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>2</td>\n",
+       "      <td>Ithergue48</td>\n",
+       "      <td>24</td>\n",
+       "      <td>Male</td>\n",
+       "      <td>92</td>\n",
+       "      <td>Final Critic</td>\n",
+       "      <td>4.88</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>3</td>\n",
+       "      <td>Chamassasya86</td>\n",
+       "      <td>24</td>\n",
+       "      <td>Male</td>\n",
+       "      <td>100</td>\n",
+       "      <td>Blindscythe</td>\n",
+       "      <td>3.27</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>4</td>\n",
+       "      <td>Iskosia90</td>\n",
+       "      <td>23</td>\n",
+       "      <td>Male</td>\n",
+       "      <td>131</td>\n",
+       "      <td>Fury</td>\n",
+       "      <td>1.44</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "   Purchase ID             SN  Age Gender  Item ID  \\\n",
+       "0            0        Lisim78   20   Male      108   \n",
+       "1            1    Lisovynya38   40   Male      143   \n",
+       "2            2     Ithergue48   24   Male       92   \n",
+       "3            3  Chamassasya86   24   Male      100   \n",
+       "4            4      Iskosia90   23   Male      131   \n",
+       "\n",
+       "                                   Item Name  Price  \n",
+       "0  Extraction, Quickblade Of Trembling Hands   3.53  \n",
+       "1                          Frenzied Scimitar   1.56  \n",
+       "2                               Final Critic   4.88  \n",
+       "3                                Blindscythe   3.27  \n",
+       "4                                       Fury   1.44  "
+      ]
+     },
+     "execution_count": 967,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "male = data.loc[data[\"Gender\"] == \"Male\"]\n",
+    "male.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 165,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Purchase ID</th>\n",
+       "      <th>SN</th>\n",
+       "      <th>Age</th>\n",
+       "      <th>Gender</th>\n",
+       "      <th>Item ID</th>\n",
+       "      <th>Item Name</th>\n",
+       "      <th>Price</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>15</th>\n",
+       "      <td>15</td>\n",
+       "      <td>Lisassa64</td>\n",
+       "      <td>21</td>\n",
+       "      <td>Female</td>\n",
+       "      <td>98</td>\n",
+       "      <td>Deadline, Voice Of Subtlety</td>\n",
+       "      <td>2.89</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>18</th>\n",
+       "      <td>18</td>\n",
+       "      <td>Reunasu60</td>\n",
+       "      <td>22</td>\n",
+       "      <td>Female</td>\n",
+       "      <td>82</td>\n",
+       "      <td>Nirvana</td>\n",
+       "      <td>4.90</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>38</th>\n",
+       "      <td>38</td>\n",
+       "      <td>Reulae52</td>\n",
+       "      <td>10</td>\n",
+       "      <td>Female</td>\n",
+       "      <td>116</td>\n",
+       "      <td>Renewed Skeletal Katana</td>\n",
+       "      <td>4.18</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>41</th>\n",
+       "      <td>41</td>\n",
+       "      <td>Assosia88</td>\n",
+       "      <td>20</td>\n",
+       "      <td>Female</td>\n",
+       "      <td>7</td>\n",
+       "      <td>Thorn, Satchel of Dark Souls</td>\n",
+       "      <td>1.33</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>55</th>\n",
+       "      <td>55</td>\n",
+       "      <td>Phaelap26</td>\n",
+       "      <td>25</td>\n",
+       "      <td>Female</td>\n",
+       "      <td>84</td>\n",
+       "      <td>Arcane Gem</td>\n",
+       "      <td>3.79</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "    Purchase ID         SN  Age  Gender  Item ID  \\\n",
+       "15           15  Lisassa64   21  Female       98   \n",
+       "18           18  Reunasu60   22  Female       82   \n",
+       "38           38   Reulae52   10  Female      116   \n",
+       "41           41  Assosia88   20  Female        7   \n",
+       "55           55  Phaelap26   25  Female       84   \n",
+       "\n",
+       "                       Item Name  Price  \n",
+       "15   Deadline, Voice Of Subtlety   2.89  \n",
+       "18                       Nirvana   4.90  \n",
+       "38       Renewed Skeletal Katana   4.18  \n",
+       "41  Thorn, Satchel of Dark Souls   1.33  \n",
+       "55                    Arcane Gem   3.79  "
+      ]
+     },
+     "execution_count": 165,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "female = data.loc[data[\"Gender\"] == \"Female\"]\n",
+    "female.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 169,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Purchase ID</th>\n",
+       "      <th>SN</th>\n",
+       "      <th>Age</th>\n",
+       "      <th>Gender</th>\n",
+       "      <th>Item ID</th>\n",
+       "      <th>Item Name</th>\n",
+       "      <th>Price</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>9</th>\n",
+       "      <td>9</td>\n",
+       "      <td>Chanosian48</td>\n",
+       "      <td>35</td>\n",
+       "      <td>Other / Non-Disclosed</td>\n",
+       "      <td>136</td>\n",
+       "      <td>Ghastly Adamantite Protector</td>\n",
+       "      <td>3.58</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>22</th>\n",
+       "      <td>22</td>\n",
+       "      <td>Siarithria38</td>\n",
+       "      <td>38</td>\n",
+       "      <td>Other / Non-Disclosed</td>\n",
+       "      <td>24</td>\n",
+       "      <td>Warped Fetish</td>\n",
+       "      <td>3.81</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>82</th>\n",
+       "      <td>82</td>\n",
+       "      <td>Haerithp41</td>\n",
+       "      <td>16</td>\n",
+       "      <td>Other / Non-Disclosed</td>\n",
+       "      <td>160</td>\n",
+       "      <td>Azurewrath</td>\n",
+       "      <td>4.40</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>111</th>\n",
+       "      <td>111</td>\n",
+       "      <td>Sundim98</td>\n",
+       "      <td>21</td>\n",
+       "      <td>Other / Non-Disclosed</td>\n",
+       "      <td>41</td>\n",
+       "      <td>Orbit</td>\n",
+       "      <td>4.75</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>228</th>\n",
+       "      <td>228</td>\n",
+       "      <td>Jiskirran77</td>\n",
+       "      <td>20</td>\n",
+       "      <td>Other / Non-Disclosed</td>\n",
+       "      <td>80</td>\n",
+       "      <td>Dreamsong</td>\n",
+       "      <td>3.39</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "     Purchase ID            SN  Age                 Gender  Item ID  \\\n",
+       "9              9   Chanosian48   35  Other / Non-Disclosed      136   \n",
+       "22            22  Siarithria38   38  Other / Non-Disclosed       24   \n",
+       "82            82    Haerithp41   16  Other / Non-Disclosed      160   \n",
+       "111          111      Sundim98   21  Other / Non-Disclosed       41   \n",
+       "228          228   Jiskirran77   20  Other / Non-Disclosed       80   \n",
+       "\n",
+       "                        Item Name  Price  \n",
+       "9    Ghastly Adamantite Protector   3.58  \n",
+       "22                  Warped Fetish   3.81  \n",
+       "82                     Azurewrath   4.40  \n",
+       "111                         Orbit   4.75  \n",
+       "228                     Dreamsong   3.39  "
+      ]
+     },
+     "execution_count": 169,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "other = data.loc[data[\"Gender\"] == \"Other / Non-Disclosed\"]\n",
+    "other.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 176,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "Male                     652\n",
+       "Female                   113\n",
+       "Other / Non-Disclosed     15\n",
+       "Name: Gender, dtype: int64"
+      ]
+     },
+     "execution_count": 176,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "total_gender = data[\"Gender\"].value_counts()\n",
+    "total_gender "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 182,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "780"
+      ]
+     },
+     "execution_count": 182,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "total_gender1 = data[\"Gender\"].count()\n",
+    "total_gender1"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 167,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "652"
+      ]
+     },
+     "execution_count": 167,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "total_male = male[\"Gender\"].count()\n",
+    "total_male"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 172,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "113"
+      ]
+     },
+     "execution_count": 172,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "total_female = female[\"Gender\"].count()\n",
+    "total_female"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 173,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "15"
+      ]
+     },
+     "execution_count": 173,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "total_other = other[\"Gender\"].count()\n",
+    "total_other"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 968,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Find the percentage\n",
+    "\n",
+    "gender_percent = pd.DataFrame((total_gender/total_gender1)*100)\n",
+    "#gender_percent"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 969,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "gender_percent[\"Counts\"] = total_gender\n",
+    "gender_percent[\"Gender\"] = gender_percent[\"Gender\"].map(\"{:.2f}%\".format)\n",
+    "#gender_percent"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 247,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Counts</th>\n",
+       "      <th>Gender</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>Male</th>\n",
+       "      <td>652</td>\n",
+       "      <td>83.59%</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Female</th>\n",
+       "      <td>113</td>\n",
+       "      <td>14.49%</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Other / Non-Disclosed</th>\n",
+       "      <td>15</td>\n",
+       "      <td>1.92%</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "                       Counts  Gender\n",
+       "Male                      652  83.59%\n",
+       "Female                    113  14.49%\n",
+       "Other / Non-Disclosed      15   1.92%"
+      ]
+     },
+     "execution_count": 247,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "organize = gender_percent[[\"Counts\",\"Gender\"]]\n",
+    "organize"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 248,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#4. Purchasing Analysis (Gender): \n",
+    "    #Run basic calculations to obtain:\n",
+    "        #a. purchase count, \n",
+    "        #b. avg. purchase price, \n",
+    "        #c. avg. purchase total per person etc. by gender\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1016,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "Price    2379.77\n",
+       "dtype: float64"
+      ]
+     },
+     "execution_count": 1016,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 983,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "Gender\n",
+       "Female                   113\n",
+       "Male                     652\n",
+       "Other / Non-Disclosed     15\n",
+       "Name: Purchase ID, dtype: int64"
+      ]
+     },
+     "execution_count": 983,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "#l = grouped_genders[\"Purchase ID\"].count()\n",
+    "#l\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 288,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Purchase ID</th>\n",
+       "      <th>SN</th>\n",
+       "      <th>Age</th>\n",
+       "      <th>Gender</th>\n",
+       "      <th>Item ID</th>\n",
+       "      <th>Item Name</th>\n",
+       "      <th>Price</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>0</td>\n",
+       "      <td>Lisim78</td>\n",
+       "      <td>20</td>\n",
+       "      <td>Male</td>\n",
+       "      <td>108</td>\n",
+       "      <td>Extraction, Quickblade Of Trembling Hands</td>\n",
+       "      <td>3.53</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>1</td>\n",
+       "      <td>Lisovynya38</td>\n",
+       "      <td>40</td>\n",
+       "      <td>Male</td>\n",
+       "      <td>143</td>\n",
+       "      <td>Frenzied Scimitar</td>\n",
+       "      <td>1.56</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>2</td>\n",
+       "      <td>Ithergue48</td>\n",
+       "      <td>24</td>\n",
+       "      <td>Male</td>\n",
+       "      <td>92</td>\n",
+       "      <td>Final Critic</td>\n",
+       "      <td>4.88</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>3</td>\n",
+       "      <td>Chamassasya86</td>\n",
+       "      <td>24</td>\n",
+       "      <td>Male</td>\n",
+       "      <td>100</td>\n",
+       "      <td>Blindscythe</td>\n",
+       "      <td>3.27</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>4</td>\n",
+       "      <td>Iskosia90</td>\n",
+       "      <td>23</td>\n",
+       "      <td>Male</td>\n",
+       "      <td>131</td>\n",
+       "      <td>Fury</td>\n",
+       "      <td>1.44</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "   Purchase ID             SN  Age Gender  Item ID  \\\n",
+       "0            0        Lisim78   20   Male      108   \n",
+       "1            1    Lisovynya38   40   Male      143   \n",
+       "2            2     Ithergue48   24   Male       92   \n",
+       "3            3  Chamassasya86   24   Male      100   \n",
+       "4            4      Iskosia90   23   Male      131   \n",
+       "\n",
+       "                                   Item Name  Price  \n",
+       "0  Extraction, Quickblade Of Trembling Hands   3.53  \n",
+       "1                          Frenzied Scimitar   1.56  \n",
+       "2                               Final Critic   4.88  \n",
+       "3                                Blindscythe   3.27  \n",
+       "4                                       Fury   1.44  "
+      ]
+     },
+     "execution_count": 288,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "male.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 298,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "652"
+      ]
+     },
+     "execution_count": 298,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "\n",
+    "male_purchase = male[\"Purchase ID\"].count()\n",
+    "male_purchase\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 302,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "113"
+      ]
+     },
+     "execution_count": 302,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "female_purchase = female[\"Purchase ID\"].count()\n",
+    "female_purchase"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 304,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "15"
+      ]
+     },
+     "execution_count": 304,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "other_purchase = other[\"Purchase ID\"].count()\n",
+    "other_purchase"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 307,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "Male                     652\n",
+       "Female                   113\n",
+       "Other / Non-Disclosed     15\n",
+       "Name: Gender, dtype: int64"
+      ]
+     },
+     "execution_count": 307,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "#a. Purchase Count\n",
+    "total_gender"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 313,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "3.0178527607361953"
+      ]
+     },
+     "execution_count": 313,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "#b. Average Purchase Price\n",
+    "male_average_pp = male[\"Price\"].mean()\n",
+    "male_average_pp"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 315,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "3.203008849557519"
+      ]
+     },
+     "execution_count": 315,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "female_average_pp = female[\"Price\"].mean()\n",
+    "female_average_pp"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 317,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "3.3460000000000005"
+      ]
+     },
+     "execution_count": 317,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "other_average_pp = other[\"Price\"].mean()\n",
+    "other_average_pp"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1037,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#c. Total Purchase Value\n",
+    "male_TPV = male[\"Price\"].sum()\n",
+    "female_TPV = female[\"Price\"].sum()\n",
+    "other_TPV = other[\"Price\"].sum()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1017,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "50.19"
+      ]
+     },
+     "execution_count": 1017,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "male_TPV \n",
+    "female_TPV \n",
+    "other_TPV"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 351,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "male_ATPPP = (male_TPV / male_purchase)\n",
+    "female_ATPPP = (female_TPV / female_purchase)\n",
+    "other_ATPPP = (other_TPV / other_purchase)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1105,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Purchase Count</th>\n",
+       "      <th>Average Purchase Price</th>\n",
+       "      <th>Total Purchase Value</th>\n",
+       "      <th>Avg Total Purchase per Person</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>Male</th>\n",
+       "      <td>652</td>\n",
+       "      <td>$ 3.02</td>\n",
+       "      <td>$ 1,967.64</td>\n",
+       "      <td>$ 3.02</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Female</th>\n",
+       "      <td>113</td>\n",
+       "      <td>$ 3.20</td>\n",
+       "      <td>$ 361.94</td>\n",
+       "      <td>$ 3.20</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Other / Non-Disclosed</th>\n",
+       "      <td>15</td>\n",
+       "      <td>$ 3.35</td>\n",
+       "      <td>$ 50.19</td>\n",
+       "      <td>$ 3.35</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "                       Purchase Count Average Purchase Price  \\\n",
+       "Male                              652                 $ 3.02   \n",
+       "Female                            113                 $ 3.20   \n",
+       "Other / Non-Disclosed              15                 $ 3.35   \n",
+       "\n",
+       "                      Total Purchase Value Avg Total Purchase per Person  \n",
+       "Male                            $ 1,967.64                        $ 3.02  \n",
+       "Female                            $ 361.94                        $ 3.20  \n",
+       "Other / Non-Disclosed              $ 50.19                        $ 3.35  "
+      ]
+     },
+     "execution_count": 1105,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "summary_table2 = pd.DataFrame({\"Purchase Count\": total_gender,\n",
+    "                              \"Average Purchase Price\": [male_average_pp, female_average_pp, other_average_pp],\n",
+    "                              \"Total Purchase Value\": [male_TPV, female_TPV, other_TPV],\n",
+    "                              \"Avg Total Purchase per Person\": [male_ATPPP, female_ATPPP, other_ATPPP]})\n",
+    "\n",
+    "summary_table2[\"Average Purchase Price\"] = summary_table2[\"Average Purchase Price\"].map(\"$ {:.2f}\".format)\n",
+    "summary_table2[\"Total Purchase Value\"] = summary_table2[\"Total Purchase Value\"].map(\"$ {:,}\".format)\n",
+    "summary_table2[\"Avg Total Purchase per Person\"] = summary_table2[\"Avg Total Purchase per Person\"].map(\"$ {:.2f}\".format)\n",
+    "summary_table2\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 361,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#5. Age Demographics:\n",
+    "    \n",
+    "    #Establish bins for ages\n",
+    "\n",
+    "    #Categorize the existing players using the age bins. Hint: use pd.cut()\n",
+    "\n",
+    "    #Calculate the numbers and percentages by age group\n",
+    "\n",
+    "    #Create a summary data frame to hold the results\n",
+    "\n",
+    "    #Optional: round the percentage column to two decimal points\n",
+    "\n",
+    "    #Display Age Demographics Table"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 596,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Purchase ID</th>\n",
+       "      <th>SN</th>\n",
+       "      <th>Age</th>\n",
+       "      <th>Gender</th>\n",
+       "      <th>Item ID</th>\n",
+       "      <th>Item Name</th>\n",
+       "      <th>Price</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>0</td>\n",
+       "      <td>Lisim78</td>\n",
+       "      <td>20</td>\n",
+       "      <td>Male</td>\n",
+       "      <td>108</td>\n",
+       "      <td>Extraction, Quickblade Of Trembling Hands</td>\n",
+       "      <td>3.53</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>1</td>\n",
+       "      <td>Lisovynya38</td>\n",
+       "      <td>40</td>\n",
+       "      <td>Male</td>\n",
+       "      <td>143</td>\n",
+       "      <td>Frenzied Scimitar</td>\n",
+       "      <td>1.56</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>2</td>\n",
+       "      <td>Ithergue48</td>\n",
+       "      <td>24</td>\n",
+       "      <td>Male</td>\n",
+       "      <td>92</td>\n",
+       "      <td>Final Critic</td>\n",
+       "      <td>4.88</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>3</td>\n",
+       "      <td>Chamassasya86</td>\n",
+       "      <td>24</td>\n",
+       "      <td>Male</td>\n",
+       "      <td>100</td>\n",
+       "      <td>Blindscythe</td>\n",
+       "      <td>3.27</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>4</td>\n",
+       "      <td>Iskosia90</td>\n",
+       "      <td>23</td>\n",
+       "      <td>Male</td>\n",
+       "      <td>131</td>\n",
+       "      <td>Fury</td>\n",
+       "      <td>1.44</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "   Purchase ID             SN  Age Gender  Item ID  \\\n",
+       "0            0        Lisim78   20   Male      108   \n",
+       "1            1    Lisovynya38   40   Male      143   \n",
+       "2            2     Ithergue48   24   Male       92   \n",
+       "3            3  Chamassasya86   24   Male      100   \n",
+       "4            4      Iskosia90   23   Male      131   \n",
+       "\n",
+       "                                   Item Name  Price  \n",
+       "0  Extraction, Quickblade Of Trembling Hands   3.53  \n",
+       "1                          Frenzied Scimitar   1.56  \n",
+       "2                               Final Critic   4.88  \n",
+       "3                                Blindscythe   3.27  \n",
+       "4                                       Fury   1.44  "
+      ]
+     },
+     "execution_count": 596,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "dat = data.drop_duplicates(subset=[\"SN\"], keep=\"first\")\n",
+    "dat.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 603,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "576"
+      ]
+     },
+     "execution_count": 603,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "ldat = dat[\"SN\"].count()\n",
+    "ldat "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 627,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "17"
+      ]
+     },
+     "execution_count": 627,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "a = dat.loc[dat[\"Age\"] < 10]\n",
+    "a1 = a[\"Age\"].count()\n",
+    "a1"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 626,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "22"
+      ]
+     },
+     "execution_count": 626,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "b = dat.loc[(dat[\"Age\"] >= 10) & (data[\"Age\"] <= 14)]\n",
+    "b1 = b[\"Age\"].count()\n",
+    "b1"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 625,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "107"
+      ]
+     },
+     "execution_count": 625,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "c = dat.loc[(dat[\"Age\"] >= 15) & (data[\"Age\"] <= 19)]\n",
+    "c1 = c[\"Age\"].count()\n",
+    "c1"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 624,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "258"
+      ]
+     },
+     "execution_count": 624,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "d = dat.loc[(dat[\"Age\"] >= 20) & (data[\"Age\"] <= 24)]\n",
+    "d1 = d[\"Age\"].count()\n",
+    "d1"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 623,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "77"
+      ]
+     },
+     "execution_count": 623,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "e = dat.loc[(dat[\"Age\"] >= 25) & (data[\"Age\"] <= 29)]\n",
+    "e1 = e[\"Age\"].count()\n",
+    "e1"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 622,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "52"
+      ]
+     },
+     "execution_count": 622,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "f = dat.loc[(dat[\"Age\"] >= 30) & (data[\"Age\"] <= 34)]\n",
+    "f1 = f[\"Age\"].count()\n",
+    "f1"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 621,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "31"
+      ]
+     },
+     "execution_count": 621,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "g = dat.loc[(dat[\"Age\"] >= 35) & (data[\"Age\"] <= 39)]\n",
+    "g1 = g[\"Age\"].count()\n",
+    "g1"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 612,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "12"
+      ]
+     },
+     "execution_count": 612,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "h = dat.loc[dat[\"Age\"] >= 40]\n",
+    "h1 = h[\"Age\"].count()\n",
+    "h1"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 652,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[17, 22, 107, 258, 77, 52, 31, 12]"
+      ]
+     },
+     "execution_count": 652,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "l_count = [a1, b1, c1, d1, e1, f1, g1, h1]\n",
+    "l_count"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 662,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([ 2.95138889,  3.81944444, 18.57638889, 44.79166667, 13.36805556,\n",
+       "        9.02777778,  5.38194444,  2.08333333])"
+      ]
+     },
+     "execution_count": 662,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Find the percentage\n",
+    "\n",
+    "PP = (l_count/ldat)*100\n",
+    "PP"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 637,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "etiquetas = [\"<10\", \"10-14\", \"15-19\", \"20-24\", \"25-29\", \"30-34\", \"35-39\", \"40+\"]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 701,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Total Count</th>\n",
+       "      <th>Percentage</th>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Etiquetas</th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>&lt;10</th>\n",
+       "      <td>17</td>\n",
+       "      <td>2.95%</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>10-14</th>\n",
+       "      <td>22</td>\n",
+       "      <td>3.82%</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>15-19</th>\n",
+       "      <td>107</td>\n",
+       "      <td>18.58%</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>20-24</th>\n",
+       "      <td>258</td>\n",
+       "      <td>44.79%</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>25-29</th>\n",
+       "      <td>77</td>\n",
+       "      <td>13.37%</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>30-34</th>\n",
+       "      <td>52</td>\n",
+       "      <td>9.03%</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>35-39</th>\n",
+       "      <td>31</td>\n",
+       "      <td>5.38%</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>40+</th>\n",
+       "      <td>12</td>\n",
+       "      <td>2.08%</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "           Total Count Percentage\n",
+       "Etiquetas                        \n",
+       "<10                 17      2.95%\n",
+       "10-14               22      3.82%\n",
+       "15-19              107     18.58%\n",
+       "20-24              258     44.79%\n",
+       "25-29               77     13.37%\n",
+       "30-34               52      9.03%\n",
+       "35-39               31      5.38%\n",
+       "40+                 12      2.08%"
+      ]
+     },
+     "execution_count": 701,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "summary_table3 = pd.DataFrame({\"Etiquetas\": [\"<10\", \"10-14\", \"15-19\", \"20-24\", \"25-29\", \"30-34\", \"35-39\", \"40+\"],\n",
+    "    \n",
+    "                                \"Total Count\": [a1, b1, c1, d1, e1, f1, g1, h1],\n",
+    "                                \"Percentage\": PP\n",
+    "                            })\n",
+    "\n",
+    "summary_table3\n",
+    "summary_table3[\"Percentage\"] = summary_table3[\"Percentage\"].map(\"{:.2f}%\".format)\n",
+    "\n",
+    "d = summary_table3.set_index('Etiquetas')\n",
+    "d\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1191,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#6. Purchasing Analysis"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1193,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "etiquetas2 = [\"<10\", \"10-14\", \"15-19\", \"20-24\", \"25-29\", \"30-34\", \"35-39\", \"40+\"]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1297,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[23, 28, 136, 365, 101, 73, 41, 13]"
+      ]
+     },
+     "execution_count": 1297,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# a. Purchase Count\n",
+    "\n",
+    "l1 = len(data.loc[data[\"Age\"] < 10])\n",
+    "k = data.loc[data[\"Age\"] < 10]\n",
+    "\n",
+    "k0 = data.loc[(data[\"Age\"] >= 10) & (data[\"Age\"] <= 14)]\n",
+    "l2 = len(k0)\n",
+    "\n",
+    "k1 = data.loc[(data[\"Age\"] >= 15) & (data[\"Age\"] <= 19)]\n",
+    "l3 = len(k1)\n",
+    "\n",
+    "k2 = data.loc[(data[\"Age\"] >= 20) & (data[\"Age\"] <= 24)]\n",
+    "l4 = len(k2)\n",
+    "\n",
+    "k3 = data.loc[(data[\"Age\"] >= 25) & (data[\"Age\"] <= 29)]\n",
+    "l5 = len(k3)\n",
+    "\n",
+    "k4 = data.loc[(data[\"Age\"] >= 30) & (data[\"Age\"] <= 34)]\n",
+    "l6 = len(k4)\n",
+    "\n",
+    "k5 = data.loc[(data[\"Age\"] >= 35) & (data[\"Age\"] <= 39)]\n",
+    "l7 = len(k5)\n",
+    "\n",
+    "l8 = len(data.loc[data[\"Age\"] >= 40])\n",
+    "k6 = data.loc[data[\"Age\"] >= 40]\n",
+    "\n",
+    "lista_l = [l1, l2, l3, l4, l5, l6, l7, l8] \n",
+    "lista_l\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1221,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Purchase ID</th>\n",
+       "      <th>SN</th>\n",
+       "      <th>Age</th>\n",
+       "      <th>Gender</th>\n",
+       "      <th>Item ID</th>\n",
+       "      <th>Item Name</th>\n",
+       "      <th>Price</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>27</th>\n",
+       "      <td>27</td>\n",
+       "      <td>Eusri44</td>\n",
+       "      <td>7</td>\n",
+       "      <td>Male</td>\n",
+       "      <td>96</td>\n",
+       "      <td>Blood-Forged Skeletal Spine</td>\n",
+       "      <td>3.09</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>33</th>\n",
+       "      <td>33</td>\n",
+       "      <td>Haillyrgue51</td>\n",
+       "      <td>7</td>\n",
+       "      <td>Male</td>\n",
+       "      <td>44</td>\n",
+       "      <td>Bonecarvin Battle Axe</td>\n",
+       "      <td>2.38</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>37</th>\n",
+       "      <td>37</td>\n",
+       "      <td>Seuthep89</td>\n",
+       "      <td>8</td>\n",
+       "      <td>Male</td>\n",
+       "      <td>73</td>\n",
+       "      <td>Ritual Mace</td>\n",
+       "      <td>2.05</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>78</th>\n",
+       "      <td>78</td>\n",
+       "      <td>Haillyrgue51</td>\n",
+       "      <td>7</td>\n",
+       "      <td>Male</td>\n",
+       "      <td>50</td>\n",
+       "      <td>Dawn</td>\n",
+       "      <td>4.60</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>81</th>\n",
+       "      <td>81</td>\n",
+       "      <td>Heudai45</td>\n",
+       "      <td>8</td>\n",
+       "      <td>Female</td>\n",
+       "      <td>174</td>\n",
+       "      <td>Primitive Blade</td>\n",
+       "      <td>3.47</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "    Purchase ID            SN  Age  Gender  Item ID  \\\n",
+       "27           27       Eusri44    7    Male       96   \n",
+       "33           33  Haillyrgue51    7    Male       44   \n",
+       "37           37     Seuthep89    8    Male       73   \n",
+       "78           78  Haillyrgue51    7    Male       50   \n",
+       "81           81      Heudai45    8  Female      174   \n",
+       "\n",
+       "                      Item Name  Price  \n",
+       "27  Blood-Forged Skeletal Spine   3.09  \n",
+       "33        Bonecarvin Battle Axe   2.38  \n",
+       "37                  Ritual Mace   2.05  \n",
+       "78                         Dawn   4.60  \n",
+       "81              Primitive Blade   3.47  "
+      ]
+     },
+     "execution_count": 1221,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "k.head()\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1299,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[77.13,\n",
+       " 82.78,\n",
+       " 412.8899999999999,\n",
+       " 1114.0599999999997,\n",
+       " 293.0,\n",
+       " 213.99999999999997,\n",
+       " 147.67000000000002,\n",
+       " 38.24]"
+      ]
+     },
+     "execution_count": 1299,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Total Purchase Value\n",
+    "j = k.groupby([\"Age\"])\n",
+    "j1 = j[\"Price\"].sum()\n",
+    "j1 = j1.sum()\n",
+    "\n",
+    "\n",
+    "ja = k1.groupby([\"Age\"])\n",
+    "j2 = ja[\"Price\"].sum()\n",
+    "j2 = j2.sum()\n",
+    "\n",
+    "jb = k2.groupby([\"Age\"])\n",
+    "j3 = jb[\"Price\"].sum()\n",
+    "j3 = j3.sum()\n",
+    "\n",
+    "jc = k3.groupby([\"Age\"])\n",
+    "j4 = jc[\"Price\"].sum()\n",
+    "j4 = j4.sum()\n",
+    "\n",
+    "jd = k4.groupby([\"Age\"])\n",
+    "j5 = jd[\"Price\"].sum()\n",
+    "j5 = j5.sum()\n",
+    "\n",
+    "je = k5.groupby([\"Age\"])\n",
+    "j6 = je[\"Price\"].sum()\n",
+    "j6 = j6.sum()\n",
+    "\n",
+    "jf = k6.groupby([\"Age\"])\n",
+    "j7 = jf[\"Price\"].sum()\n",
+    "j7 = j7.sum()\n",
+    "\n",
+    "jg = k0.groupby([\"Age\"])\n",
+    "j8 = jg[\"Price\"].sum()\n",
+    "j8 = j8.sum()\n",
+    "\n",
+    "lista_2 = [j1, j8, j2, j3, j4, j5, j6, j7]\n",
+    "lista_2"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1300,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[3.3152314814814816,\n",
+       " 2.9343571428571433,\n",
+       " 3.03461271482141,\n",
+       " 3.0393206645171014,\n",
+       " 2.615353026634383,\n",
+       " 2.873856349206349,\n",
+       " 3.5147650793650795,\n",
+       " 3.060833333333333]"
+      ]
+     },
+     "execution_count": 1300,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Average Purchase Price\n",
+    "\n",
+    "n = k.groupby([\"Age\"])\n",
+    "n1 = n[\"Price\"].mean()\n",
+    "n1 = n1.mean()\n",
+    "\n",
+    "na = k1.groupby([\"Age\"])\n",
+    "n2 = na[\"Price\"].mean()\n",
+    "n2 = n2.mean()\n",
+    "\n",
+    "nb = k2.groupby([\"Age\"])\n",
+    "n3 = nb[\"Price\"].mean()\n",
+    "n3 = n3.mean()\n",
+    "\n",
+    "nc = k3.groupby([\"Age\"])\n",
+    "n4 = nc[\"Price\"].mean()\n",
+    "n4 = n4.mean()\n",
+    "\n",
+    "nd = k4.groupby([\"Age\"])\n",
+    "n5 = nd[\"Price\"].mean()\n",
+    "n5 = n5.mean()\n",
+    "\n",
+    "ne = k5.groupby([\"Age\"])\n",
+    "n6 = ne[\"Price\"].mean()\n",
+    "n6 = n6.mean()\n",
+    "\n",
+    "nf = k6.groupby([\"Age\"])\n",
+    "n7 = nf[\"Price\"].mean()\n",
+    "n7 = n7.mean()\n",
+    "\n",
+    "ng = k0.groupby([\"Age\"])\n",
+    "n8 = ng[\"Price\"].mean()\n",
+    "n8 = n8.mean()\n",
+    "\n",
+    "lista_3 = [n1, n8, n2, n3, n4, n5, n6, n7]\n",
+    "lista_3"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1287,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "n = k.groupby([\"Age\"])\n",
+    "n1 = n[\"Price\"].mean()\n",
+    "n1 = n1.mean()\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1305,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Purchase Count</th>\n",
+       "      <th>Total Purchase Value</th>\n",
+       "      <th>Average Purchase Price</th>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Ages</th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>&lt;10</th>\n",
+       "      <td>23</td>\n",
+       "      <td>77.13%</td>\n",
+       "      <td>3.32%</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>10-14</th>\n",
+       "      <td>28</td>\n",
+       "      <td>82.78%</td>\n",
+       "      <td>2.93%</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>15-19</th>\n",
+       "      <td>136</td>\n",
+       "      <td>412.89%</td>\n",
+       "      <td>3.03%</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>20-24</th>\n",
+       "      <td>365</td>\n",
+       "      <td>1114.06%</td>\n",
+       "      <td>3.04%</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>25-29</th>\n",
+       "      <td>101</td>\n",
+       "      <td>293.00%</td>\n",
+       "      <td>2.62%</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>30-34</th>\n",
+       "      <td>73</td>\n",
+       "      <td>214.00%</td>\n",
+       "      <td>2.87%</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>35-39</th>\n",
+       "      <td>41</td>\n",
+       "      <td>147.67%</td>\n",
+       "      <td>3.51%</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>40+</th>\n",
+       "      <td>13</td>\n",
+       "      <td>38.24%</td>\n",
+       "      <td>3.06%</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "       Purchase Count Total Purchase Value Average Purchase Price\n",
+       "Ages                                                             \n",
+       "<10                23               77.13%                  3.32%\n",
+       "10-14              28               82.78%                  2.93%\n",
+       "15-19             136              412.89%                  3.03%\n",
+       "20-24             365             1114.06%                  3.04%\n",
+       "25-29             101              293.00%                  2.62%\n",
+       "30-34              73              214.00%                  2.87%\n",
+       "35-39              41              147.67%                  3.51%\n",
+       "40+                13               38.24%                  3.06%"
+      ]
+     },
+     "execution_count": 1305,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "summary_tableppa = pd.DataFrame({\"Ages\": [\"<10\", \"10-14\", \"15-19\", \"20-24\", \"25-29\", \"30-34\", \"35-39\", \"40+\"],\n",
+    "                              \"Purchase Count\": [l1, l2, l3, l4, l5, l6, l7, l8],\n",
+    "                              \"Total Purchase Value\": [j1, j8, j2, j3, j4, j5, j6, j7],\n",
+    "                              \"Average Purchase Price\": [n1, n8, n2, n3, n4, n5, n6, n7]})\n",
+    "\n",
+    "\n",
+    "summary_tableppa[\"Total Purchase Value\"] = summary_tableppa[\"Total Purchase Value\"].map(\"{:.2f}%\".format)\n",
+    "summary_tableppa[\"Average Purchase Price\"] = summary_tableppa[\"Average Purchase Price\"].map(\"{:.2f}%\".format)\n",
+    "summary_tableppaf = summary_tableppa.set_index('Ages')\n",
+    "summary_tableppaf\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1194,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#7. Top Spenders"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1347,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>SN</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>Lisosia93</th>\n",
+       "      <td>5</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Iral74</th>\n",
+       "      <td>4</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Idastidru52</th>\n",
+       "      <td>4</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Haillyrgue51</th>\n",
+       "      <td>3</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Asur53</th>\n",
+       "      <td>3</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "              SN\n",
+       "Lisosia93      5\n",
+       "Iral74         4\n",
+       "Idastidru52    4\n",
+       "Haillyrgue51   3\n",
+       "Asur53         3"
+      ]
+     },
+     "execution_count": 1347,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "all_purchase = data[\"SN\"].value_counts()\n",
+    "all_purchase0 = pd.DataFrame(all_purchase)\n",
+    "all_purchase0.head()\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1344,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Price</th>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>SN</th>\n",
+       "      <th></th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>Adairialis76</th>\n",
+       "      <td>2.28</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Adastirin33</th>\n",
+       "      <td>4.48</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Aeda94</th>\n",
+       "      <td>4.91</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Aela59</th>\n",
+       "      <td>4.32</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Aelaria33</th>\n",
+       "      <td>1.79</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "              Price\n",
+       "SN                 \n",
+       "Adairialis76   2.28\n",
+       "Adastirin33    4.48\n",
+       "Aeda94         4.91\n",
+       "Aela59         4.32\n",
+       "Aelaria33      1.79"
+      ]
+     },
+     "execution_count": 1344,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "group1 = group.groupby([\"SN\"])\n",
+    "avtodos = group1.mean()\n",
+    "avtodos.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1346,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>SN</th>\n",
+       "      <th>Average Purchase Price</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>Lisosia93</th>\n",
+       "      <td>5</td>\n",
+       "      <td>3.792000</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Iral74</th>\n",
+       "      <td>4</td>\n",
+       "      <td>3.405000</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Idastidru52</th>\n",
+       "      <td>4</td>\n",
+       "      <td>3.862500</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Haillyrgue51</th>\n",
+       "      <td>3</td>\n",
+       "      <td>3.166667</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Asur53</th>\n",
+       "      <td>3</td>\n",
+       "      <td>2.480000</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "              SN  Average Purchase Price\n",
+       "Lisosia93      5                3.792000\n",
+       "Iral74         4                3.405000\n",
+       "Idastidru52    4                3.862500\n",
+       "Haillyrgue51   3                3.166667\n",
+       "Asur53         3                2.480000"
+      ]
+     },
+     "execution_count": 1346,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "all_purchase0[\"Average Purchase Price\"] = avtodos\n",
+    "all_purchase0.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 851,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#hacerlo numérico\n",
+    "all_purchase0['SN'] = pd.to_numeric(all_purchase0['SN'])\n",
+    "all_purchase0['Average Purchase Price'] = pd.to_numeric(all_purchase0['Average Purchase Price'])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 856,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 857,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "all_purchase0[\"Total Purchase Value\"] = all_purchase0['SN'] * all_purchase0['Average Purchase Price']"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 865,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>SN</th>\n",
+       "      <th>Average Purchase Price</th>\n",
+       "      <th>Total Purchase Value</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>Lisosia93</th>\n",
+       "      <td>5</td>\n",
+       "      <td>$3.79</td>\n",
+       "      <td>$18.96</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Idastidru52</th>\n",
+       "      <td>4</td>\n",
+       "      <td>$3.86</td>\n",
+       "      <td>$15.45</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Chamjask73</th>\n",
+       "      <td>3</td>\n",
+       "      <td>$4.61</td>\n",
+       "      <td>$13.83</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Iral74</th>\n",
+       "      <td>4</td>\n",
+       "      <td>$3.40</td>\n",
+       "      <td>$13.62</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Iskadarya95</th>\n",
+       "      <td>3</td>\n",
+       "      <td>$4.37</td>\n",
+       "      <td>$13.10</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "             SN Average Purchase Price Total Purchase Value\n",
+       "Lisosia93     5                  $3.79               $18.96\n",
+       "Idastidru52   4                  $3.86               $15.45\n",
+       "Chamjask73    3                  $4.61               $13.83\n",
+       "Iral74        4                  $3.40               $13.62\n",
+       "Iskadarya95   3                  $4.37               $13.10"
+      ]
+     },
+     "execution_count": 865,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "\n",
+    "top_spenders = all_purchase0.sort_values([\"Total Purchase Value\"], ascending=False)\n",
+    "top_spenders[\"Average Purchase Price\"] = top_spenders[\"Average Purchase Price\"].map(\"${:.2f}\".format)\n",
+    "top_spenders[\"Total Purchase Value\"] = top_spenders[\"Total Purchase Value\"].map(\"${:.2f}\".format)\n",
+    "top_spenders.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 866,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#8. Most Popular Items"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1370,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#9. Most Profitable Items"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1387,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Item ID</th>\n",
+       "      <th>Item Name</th>\n",
+       "      <th>Price</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>108</td>\n",
+       "      <td>Extraction, Quickblade Of Trembling Hands</td>\n",
+       "      <td>3.53</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>143</td>\n",
+       "      <td>Frenzied Scimitar</td>\n",
+       "      <td>1.56</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>92</td>\n",
+       "      <td>Final Critic</td>\n",
+       "      <td>4.88</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>100</td>\n",
+       "      <td>Blindscythe</td>\n",
+       "      <td>3.27</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>131</td>\n",
+       "      <td>Fury</td>\n",
+       "      <td>1.44</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "   Item ID                                  Item Name  Price\n",
+       "0      108  Extraction, Quickblade Of Trembling Hands   3.53\n",
+       "1      143                          Frenzied Scimitar   1.56\n",
+       "2       92                               Final Critic   4.88\n",
+       "3      100                                Blindscythe   3.27\n",
+       "4      131                                       Fury   1.44"
+      ]
+     },
+     "execution_count": 1387,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Retrieve the Item ID, Item Name, and Item Price columns\n",
+    "ret = data.loc[:, [\"Item ID\", \"Item Name\", \"Price\"]]\n",
+    "ret.head()\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1388,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "ret['Price'] = pd.to_numeric(ret['Price'])\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1389,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th>Price</th>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Item ID</th>\n",
+       "      <th>Item Name</th>\n",
+       "      <th></th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <th>Splinter</th>\n",
+       "      <td>4</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <th>Crucifer</th>\n",
+       "      <td>3</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <th>Verdict</th>\n",
+       "      <td>6</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <th>Phantomlight</th>\n",
+       "      <td>6</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <th>Bloodlord's Fetish</th>\n",
+       "      <td>5</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "                            Price\n",
+       "Item ID Item Name                \n",
+       "0       Splinter                4\n",
+       "1       Crucifer                3\n",
+       "2       Verdict                 6\n",
+       "3       Phantomlight            6\n",
+       "4       Bloodlord's Fetish      5"
+      ]
+     },
+     "execution_count": 1389,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "grouped2 = ret.groupby(['Item ID', 'Item Name'])\n",
+    "grouped2.count().head()\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1390,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th>Price</th>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Item ID</th>\n",
+       "      <th>Item Name</th>\n",
+       "      <th></th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <th>Splinter</th>\n",
+       "      <td>5.12</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <th>Crucifer</th>\n",
+       "      <td>9.78</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <th>Verdict</th>\n",
+       "      <td>14.88</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <th>Phantomlight</th>\n",
+       "      <td>14.94</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <th>Bloodlord's Fetish</th>\n",
+       "      <td>8.50</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "                            Price\n",
+       "Item ID Item Name                \n",
+       "0       Splinter             5.12\n",
+       "1       Crucifer             9.78\n",
+       "2       Verdict             14.88\n",
+       "3       Phantomlight        14.94\n",
+       "4       Bloodlord's Fetish   8.50"
+      ]
+     },
+     "execution_count": 1390,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "n = pd.DataFrame(grouped2[\"Price\"].sum())\n",
+    "n.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 960,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th>Total Purchase Value</th>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Item ID</th>\n",
+       "      <th>Item Name</th>\n",
+       "      <th></th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>178</th>\n",
+       "      <th>Oathbreaker, Last Hope of the Breaking Storm</th>\n",
+       "      <td>$50.76</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>82</th>\n",
+       "      <th>Nirvana</th>\n",
+       "      <td>$44.10</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>145</th>\n",
+       "      <th>Fiery Glass Crusader</th>\n",
+       "      <td>$41.22</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>92</th>\n",
+       "      <th>Final Critic</th>\n",
+       "      <td>$39.04</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>103</th>\n",
+       "      <th>Singed Scalpel</th>\n",
+       "      <td>$34.80</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "                                                     Total Purchase Value\n",
+       "Item ID Item Name                                                        \n",
+       "178     Oathbreaker, Last Hope of the Breaking Storm               $50.76\n",
+       "82      Nirvana                                                    $44.10\n",
+       "145     Fiery Glass Crusader                                       $41.22\n",
+       "92      Final Critic                                               $39.04\n",
+       "103     Singed Scalpel                                             $34.80"
+      ]
+     },
+     "execution_count": 960,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "popular = n.sort_values([\"Price\"], ascending=False)\n",
+    "popular[\"Price\"] = popular[\"Price\"].map(\"${:.2f}\".format)\n",
+    "\n",
+    "popular = popular.rename(columns={\"Price\": \"Total Purchase Value\"})\n",
+    "popular.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1391,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Purchase Count</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>Final Critic</th>\n",
+       "      <td>13</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Oathbreaker, Last Hope of the Breaking Storm</th>\n",
+       "      <td>12</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Extraction, Quickblade Of Trembling Hands</th>\n",
+       "      <td>9</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Persuasion</th>\n",
+       "      <td>9</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Fiery Glass Crusader</th>\n",
+       "      <td>9</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "                                              Purchase Count\n",
+       "Final Critic                                              13\n",
+       "Oathbreaker, Last Hope of the Breaking Storm              12\n",
+       "Extraction, Quickblade Of Trembling Hands                  9\n",
+       "Persuasion                                                 9\n",
+       "Fiery Glass Crusader                                       9"
+      ]
+     },
+     "execution_count": 1391,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "#PURCHASE COUNT\n",
+    "purc = ret[\"Item Name\"].value_counts()\n",
+    "purchase_count3 = pd.DataFrame(purc)\n",
+    "purchase_count3\n",
+    "ppp = purchase_count3.sort_values([\"Item Name\"], ascending=False)\n",
+    "\n",
+    "ppp = ppp.rename(columns={\"Item Name\": \"Purchase Count\"})\n",
+    "ppp.head()"
+   ]
+  },
+  {
+   "cell_type": "raw",
+   "metadata": {},
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.7.1"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}
